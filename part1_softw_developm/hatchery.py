@@ -4,7 +4,18 @@ from vendor import Vendor
 from fish_species import FishSpecies
 
 class Hatchery:
+    """
+    This class imitates a fish hatchery business.
+    It handles hiring technicians, managing supplies, selling fish, and running the hatchery operations.
+    """
     def __init__(self, num_quarters=8, initial_cash=10000, fixed_costs=1500):
+        """
+        Initializing the hatchery with the given parameters.
+
+        :param num_quarters: Decalaring the number of quarters (time periods) to run the simulation
+        :param initial_cash: Initial amount of cash for the hatchery
+        :param fixed_costs: Fixed costs (like rent, utilities) per quarter
+        """
         self.quarters = num_quarters # Setting no. of quarters the simulation will run
         self.cash = initial_cash
         self.fixed_costs = fixed_costs
@@ -17,6 +28,11 @@ class Hatchery:
         ]
 
     def initialize_fish_species(self):
+        """
+        Modifying list of fish species, each with particular properties.
+
+        :return: List of FishSpecies objects
+        """
         return [
             FishSpecies("Clef Fins", 100.0, 12, 2, 2.0, 25, 250),
             FishSpecies("Timpani Snapper", 50.0, 9, 2, 1.0, 10, 350),
@@ -27,6 +43,11 @@ class Hatchery:
         ] # Create and return list of fish species with their properties
     
     def hire_technician(self, name):
+        """
+        Hiring a technician if not already hired, provided the hatchery has space for more technicians.
+
+        :param name: Entering the name of the technician to be hired
+        """
         if any(tech.name == name for tech in self.technicians): # Checking if technician already exists
             print(f"Technician {name} is already hired.")
             return
@@ -46,6 +67,13 @@ class Hatchery:
             print(f"Technician {name} not found.")
     
     def sell_fish(self, fish_type, amount):
+        """
+        Selling certain amount of fish, updating the hatchery's supplies and cash.
+
+        :param fish_type: Type of fish to sell
+        :param amount: Number of fishes to sell
+        :return: Revenue from the sale
+        """
         fish = next((f for f in self.fish_species if f.name == fish_type), None)
         if fish:
             max_can_sell = min(fish.demand, self.warehouse.supplies['fertilizer'] // fish.fertilizer,
@@ -62,8 +90,13 @@ class Hatchery:
         return 0 # Return 0 if we were not able to sell any fish
 
     def run_quarter(self):
+        """
+        Runs functions for a single quarter (time period).
+
+        :return: True if the hatchery endures to the next quarter, False if bankrupt
+        """
         print(f"================================\n====== SIMULATING quarter {self.quarters} ======\n================================")
-        
+            
         # Manage technician adjustments
         self.adjust_technicians()
         self.adjust_fish_sales()
@@ -87,6 +120,9 @@ class Hatchery:
         return True
 
     def adjust_technicians(self):
+        """
+        Adjusts the number of technicians based on user input (hire or let go).
+        """
         print("Current Technicians:")
         for tech in self.technicians:
             print(f"- {tech.name}")
@@ -104,7 +140,23 @@ class Hatchery:
                 if name:
                     self.fire_technician(name)
 
+    def adjust_fish_sales(self):
+        """
+        Adjusting the number of fish to be sold based on user input.
+        """
+        sales = {}
+        for fish in self.fish_species:
+            sales[fish.name] = self.get_integer_input(f"Fish {fish.name}, demand {fish.demand}, sell {fish.demand}: ")
+        
+        total_sales = 0 # Processing sales and calculate the revenue
+        for fish_name, amount in sales.items():
+            total_sales += self.sell_fish(fish_name, amount)
+        print(f"Total revenue from fish sales: £{total_sales}")
+
     def display_status(self):
+        """
+        Displays current status of hatchery, including cash, supplies, and technicians.
+        """
         print("\nHatchery Status:")
         print(f"Hatchery Name: Eastaboga, Cash: £{self.cash:.2f}")
         print("Warehouse Main:")
@@ -120,6 +172,9 @@ class Hatchery:
             print(f" Technician {tech.name}, weekly rate={tech.weekly_rate}")
         
     def restock_supplies(self):
+        """
+        Restocks supplies from vendor if hatchery has enough cash.
+        """
         print("\nList of Vendors")
         print(" 1. Slippery Lakes")
         print(" 2. Scaly Wholesaler")
@@ -142,6 +197,12 @@ class Hatchery:
             return
 
     def get_integer_input(self, prompt, valid_range=None):
+        """
+        Safely gets an integer input from the user with error handling.
+        
+        :param prompt: The prompt message for user input
+        :return: An integer input from the user
+        """
         while True:
             try:
                 value = int(input(prompt))
