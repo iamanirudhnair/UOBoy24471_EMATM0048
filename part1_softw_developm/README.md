@@ -16,7 +16,7 @@ This is the starting point of the simulation program. It begins its execution by
 Key methods:
 main(): Prompt the user for input, create a hatchery, and run the simulation for the input number of quarters or until the hatchery goes bankrupt.
 
-# hatchery.py
+### hatchery.py
 In this file, the class Hatchery, which is a model of the fish hatchery, implement most of the logic engaged in conducting the simulation. Hiring technicians, selling fish, and purchasing supplies will be taken care of herein. It has logic for: 
 
 Adjusting technician numbers based on user input.
@@ -33,7 +33,7 @@ adjust_technicians(): Prompts user input to adjust the number of technicians.
 adjust_fish_sales(): Prompts the user to decide how much fish to sell.
 restock_supplies(): Prompts the user to pick a vendor and restocks supplies from the vendor.
 
-# warehouse.py
+### warehouse.py
 This file defines the class Warehouse that represents storage facilities for the Hatchery; it keeps track of inventories of fertilizers, feeds, and salt and computes depreciation; it also calculates costs for restocking supplies and handles depreciation of supplies over time.
 
 __init__(): Initializes the warehouse with a selected supply capacity for main and auxiliary supply warehouses and sets cost structure for each supply type.
@@ -41,30 +41,30 @@ add_supply(): Adds a certain amount of a certain supply type (fertilizer, feed, 
 apply_depreciation(): Applies depreciation to the supplies inside the warehouse at the end of each quarter.
 get_total_cost(): Calculates total cost of all supplies in the warehouse for the current quarter. 
 
-# technician.py
+### technician.py
 This file implements the Technician class, which represents individual workers in the hatchery. Each technician is paid a week by a quarter for 9 weeks of work.
 
 __init__(): Initialize the technician using a name and a weekly rate of pay.
 get_payment(): Calculates total earnings for the quarter based upon pay rate for the technician (paid for 9 weeks).
 
-# vendor.py
+### vendor.py
 The Vendor class represents the suppliers selling mixed supplies (the ones that supplies the hatchery with fertilizer, feed, and salt). The prices of supplies depend on which vendor is chosen.
 
 __init__(): Initialize the vendor using a name and the prices for supplies.
 get_price(): Quotes the price of a certain kind of supply type(fertilizer, feed, or salt) from the vendor.
 
-# fish_species.py
+### fish_species.py
 This file implements the FishSpecies class, representing the different fish species raised out and sold in the hatchery. Every species has some specific requirement regarding what fertilizer, feed, and salt it needs as well as the time of maintenance, demand, and price per fish.
 
 __init__(): Initialize the fish species with the type of fish, fertilizer requirements, feed requirements, salt requirements, maintenance time, demand, and price.
 
 ## Design Decisions
 
-# Object-Oriented Design
+### Object-Oriented Design
 
 The whole system is built on object-oriented principles such that modularity and encapsulation thrive. The hatchery, technicians, fish species, and warehouse in the simulation are all modeled as separate classes. This arrangement makes it much easier to maintain, extend, and debug the simulation.
 
-# Separation of Concerns
+### Separation of Concerns
 
 Every class is responsible for dealing with a particular aspect of the hatchery simulation:
 
@@ -74,23 +74,23 @@ Warehouse-deals with the inventory and depreciation.
 Vendor-is responsible for the supply chain and purchasing decisions.
 FishSpecies refers to the fish species along with their needs and sales related information.
 
-# User Input Handling
+### User Input Handling
 
 User input is guided interactively after each quarter of the simulation, while error handling ensures that the input values are valid. More specifically, in the event of adjusting technicians or selling fish, the inputs are kept within range by the program, which subsequently would gracefully handle any troublesome entries made by the user.
 
-# Flexibility and Extendibility
+### Flexibility and Extendibility
 
 The design allows for flexibility and even extensibility. Thus, it is an easy matter to add new fish species by modifying the FishSpecies class. To make changes to suppliers, a new Vendor object can be added. The simulation also allows for varying the number of quarters in addition to other parameters. Therefore, it is flexible enough to accommodate different kinds of use cases.
 
-# Bankruptcy Mechanism
+### Bankruptcy Mechanism
 
 There is a mechanism for bankruptcy in the simulation; if the hatchery's cash balance were to become negative, the simulation ends, and the hatchery is declared bankrupt. According to what simulation is all about, this is indeed the most critical part, which means the user must be, at all times, careful about finances.
 
-# Executing the Simulation
+### Executing the Simulation
 
 To start the simulation, you will run the main.py file. The program will then request the user to specify the number of quarters for the simulation. By default, the simulation runs for 2 years (8 quarters). During the simulation, the user will be prompted to make decisions regarding technician management, fish sales, and supply purchases.
 
-# Example Workflow:
+## Example Workflow:
 
 The simulation starts by setting the number of quarters.
 The quarter starts with the hiring or firing of technicians.
