@@ -1,6 +1,6 @@
-from warehouse import Warehouse # Importing the different classes from their respective python files
+from warehouse import Warehouse  # Importing the different classes from their respective python files
 from technician import Technician
-from vendor import Vendor # Like importing the Vendor class from vendor.py
+from vendor import Vendor  # Like importing the Vendor class from vendor.py
 from fish_species import FishSpecies
 
 class Hatchery:
@@ -12,16 +12,16 @@ class Hatchery:
         """
         Initializing the hatchery with the given parameters.
 
-        :param num_quarters: Decalaring the number of quarters (time periods) to run the simulation
+        :param num_quarters: Declaring the number of quarters (time periods) to run the simulation
         :param initial_cash: Initial amount of cash for the hatchery
         :param fixed_costs: Fixed costs (like rent, utilities) per quarter
         """
-        self.quarters = num_quarters # Setting no. of quarters the simulation will run
+        self.quarters = num_quarters  # Setting number of quarters the simulation will run
         self.cash = initial_cash
         self.fixed_costs = fixed_costs
         self.warehouse = Warehouse(20, 10, {'fertilizer': 0.10, 'feed': 0.001, 'salt': 0.001})
         self.technicians = []
-        self.fish_species = self.initialize_fish_species() # Initializing list of fish species the hatchery manages
+        self.fish_species = self.initialize_fish_species()  # Initializing list of fish species the hatchery manages
         self.vendors = [
             Vendor("Slippery Lakes", 0.30, 0.10, 0.05),
             Vendor("Scaly Wholesaler", 0.20, 0.40, 0.25)
@@ -40,7 +40,7 @@ class Hatchery:
             FishSpecies("Plagal Cod", 100.0, 10, 2, 2.0, 20, 400),
             FishSpecies("Fugue Flounder", 200.0, 12, 2, 2.5, 30, 550),
             FishSpecies("Modal Bass", 300.0, 12, 6, 3.0, 50, 500)
-        ] # Create and return list of fish species with their properties
+        ]  # Create and return list of fish species with their properties
     
     def hire_technician(self, name):
         """
@@ -48,18 +48,18 @@ class Hatchery:
 
         :param name: Entering the name of the technician to be hired
         """
-        if any(tech.name == name for tech in self.technicians): # Checking if technician already exists
+        if any(tech.name == name for tech in self.technicians):  # Checking if technician already exists
             print(f"Technician {name} is already hired.")
             return
-        if len(self.technicians) < 5: # Check if there is space for more technicians (max 5)
+        if len(self.technicians) < 5:  # Check if there is space for more technicians (max 5)
             technician = Technician(name)
             self.technicians.append(technician)
-            print(f"Hired {name}, weekly rate={technician.weekly_rate} in quarter {self.quarters}")
+            print(f"Hired {name}, weekly rate={technician.weekly_rate} in quarter {self.quarters}\n")
         else:
-            print("Maximum number of technicians already hired.") # Prompt if max technician limit is reached
+            print("Maximum number of technicians already hired.")  # Prompt if max technician limit is reached
     
     def fire_technician(self, name):
-        technician = next((tech for tech in self.technicians if tech.name == name), None) # Finding technician
+        technician = next((tech for tech in self.technicians if tech.name == name), None)  # Finding technician
         if technician:
             self.technicians.remove(technician)
             print(f"Let go {name}, weekly rate={technician.weekly_rate} in quarter {self.quarters}")
@@ -78,16 +78,16 @@ class Hatchery:
         if fish:
             max_can_sell = min(fish.demand, self.warehouse.supplies['fertilizer'] // fish.fertilizer,
                                self.warehouse.supplies['feed'] // fish.feed, len(self.technicians))
-            amount_to_sell = min(amount, max_can_sell) # Calculating how many fishes to be sold
+            amount_to_sell = min(amount, max_can_sell)  # Calculating how many fishes to be sold
             revenue = amount_to_sell * fish.price
-            self.cash += revenue # Adding revenue to hatchery's cash
+            self.cash += revenue  # Adding revenue to hatchery's cash
             # Deducting supplies based on the fish sold
             self.warehouse.supplies['fertilizer'] -= amount_to_sell * fish.fertilizer
             self.warehouse.supplies['feed'] -= amount_to_sell * fish.feed
             self.warehouse.supplies['salt'] -= amount_to_sell * fish.salt
             print(f"Fish {fish_type}, demand {fish.demand}, sell {amount}: {amount_to_sell}")
             return revenue
-        return 0 # Return 0 if we were not able to sell any fish
+        return 0  # Return 0 if we were not able to sell any fish
 
     def run_quarter(self):
         """
@@ -95,7 +95,8 @@ class Hatchery:
 
         :return: True if the hatchery endures to the next quarter, False if bankrupt
         """
-        print(f"================================\n====== SIMULATING quarter {self.quarters} ======\n================================")
+        
+       # print(f"\n================================\n====== SIMULATING quarter {quarters} ======\n================================")
             
         # Manage technician adjustments
         self.adjust_technicians()
@@ -109,7 +110,7 @@ class Hatchery:
         supply_costs = self.warehouse.get_total_cost()
         self.cash -= supply_costs
         
-        self.warehouse.apply_depreciation() # Apply depreciation to supplies in the warehouse
+        self.warehouse.apply_depreciation()  # Apply depreciation to supplies in the warehouse
         
         # Displaying status of the hatchery
         self.display_status()
@@ -120,6 +121,9 @@ class Hatchery:
         if self.cash < 0:
             print(f"Hatchery went bankrupt at the end of quarter {self.quarters}")
             return False
+
+        # Increment the quarter after the cycle
+        self.quarters += 1  # Incrementing the quarter number
         return True
 
     def adjust_technicians(self):
@@ -151,7 +155,7 @@ class Hatchery:
         for fish in self.fish_species:
             sales[fish.name] = self.get_integer_input(f"Fish {fish.name}, demand {fish.demand}, sell {fish.demand}: ")
         
-        total_sales = 0 # Processing sales and calculate the revenue
+        total_sales = 0  # Processing sales and calculate the revenue
         for fish_name, amount in sales.items():
             total_sales += self.sell_fish(fish_name, amount)
         print(f"Total revenue from fish sales: £{total_sales}")
@@ -161,15 +165,15 @@ class Hatchery:
         Displays current status of hatchery, including cash, supplies, and technicians.
         """
         print("\nHatchery Status:")
-        print(f"Hatchery Name: Eastaboga, Cash: £{self.cash:.2f}")
+        print(f"Hatchery Name: Eastaboga, Cash: £{self.cash:.2f}\n")
         print("Warehouse Main:")
         print(f" Fertiliser, {self.warehouse.supplies['fertilizer']:.2f} (capacity=20)")
         print(f" Feed, {self.warehouse.supplies['feed']:.2f} (capacity=400)")
-        print(f" Salt, {self.warehouse.supplies['salt']:.2f} (capacity=200)")
+        print(f" Salt, {self.warehouse.supplies['salt']:.2f} (capacity=200)\n")
         print("Warehouse Auxiliary:")
         print(f" Fertiliser, {self.warehouse.supplies['fertilizer']:.2f} (capacity=10)")
         print(f" Feed, {self.warehouse.supplies['feed']:.2f} (capacity=200)")
-        print(f" Salt, {self.warehouse.supplies['salt']:.2f} (capacity=100)")
+        print(f" Salt, {self.warehouse.supplies['salt']:.2f} (capacity=100)\n")
         print("Technicians:")
         for tech in self.technicians:
             print(f" Technician {tech.name}, weekly rate={tech.weekly_rate}")
@@ -179,41 +183,23 @@ class Hatchery:
         Restocks supplies from vendor if hatchery has enough cash.
         """
         print("\nList of Vendors")
-        print(" 1. Slippery Lakes")
-        print(" 2. Scaly Wholesaler")
-        vendor_choice = self.get_integer_input(">>> Enter number of vendor to purchase from: ", valid_range=[1, 2]) - 1
-        vendor = self.vendors[vendor_choice]
+        print(" 1. Slippery Lakes: price=0.30, demand=0.10, delivery fee=0.05")
+        print(" 2. Scaly Wholesaler: price=0.20, demand=0.40, delivery fee=0.25")
+        vendor_choice = self.get_integer_input(">>> Enter the number of vendor you want to restock supplies from: ")
+        vendor = self.vendors[vendor_choice - 1]
         
-        total_cost = 0
-        for supply_type in ['fertilizer', 'feed', 'salt']:
-            if self.warehouse.supplies[supply_type] < 20:  # Restock only if supplies are below 20
-                needed = 20 - self.warehouse.supplies[supply_type]
-                cost = needed * vendor.get_price(supply_type)
-                total_cost += cost
-                print(f"Restocking {supply_type}: {needed} units, cost: £{cost:.2f}")
-                self.warehouse.add_supply(supply_type, needed)
-        
-        if total_cost > self.cash:
-            print(f"Can't restock supplies, insufficient funds (need £{total_cost} but only have £{self.cash:.2f}).")
-            print(f"Went bankrupt restocking warehouse Main in quarter {self.quarters}")
-            self.cash = -1  # Simulating bankruptcy
-            return
-
-    def get_integer_input(self, prompt, valid_range=None):
+        if self.cash > vendor.get_delivery_cost():
+            self.cash -= vendor.get_delivery_cost()
+            self.warehouse.add_supplies(vendor.supply())
+        else:
+            print(f"Not enough cash to buy from {vendor.name}.")
+    
+    def get_integer_input(self, prompt):
         """
-        Safely gets an integer input from the user with error handling.
-        
-        :param prompt: The prompt message for user input
-        :return: An integer input from the user
+        Helper function to ensure valid integer input.
         """
         while True:
             try:
-                value = int(input(prompt)) # Attempting to get an integer
-                if valid_range and value not in valid_range:
-                    print(f"Please enter a value between {valid_range[0]} and {valid_range[1]}.")
-                else:
-                    return value
-            except ValueError: # If input is not an integer, asking the user again
+                return int(input(prompt))
+            except ValueError:
                 print("Invalid input. Please enter a valid integer.")
-            except KeyboardInterrupt:
-                print("\nInput interrupted, please try again.")
