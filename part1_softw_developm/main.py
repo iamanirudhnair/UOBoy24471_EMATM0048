@@ -32,7 +32,7 @@ def main():
 
     # Iterating over the range of quarters and printing the current quarter number
     for quarter in range(1, num_quarters + 1):  # Start from 1 to num_quarters (inclusive)
-        print(f"\n================================\n====== SIMULATING {quarter} ==========\n================================")  # Print current quarter
+        print(f"================================\n====== SIMULATING Quarter {quarter} ======\n================================")  # Print current quarter
         try:
             if not hatchery.run_quarter():
                 print("The hatchery has gone bankrupt. Simulation terminated.")
