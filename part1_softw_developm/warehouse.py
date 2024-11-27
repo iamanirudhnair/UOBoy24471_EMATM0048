@@ -49,5 +49,5 @@ class Warehouse:
     def get_total_cost(self):
         total_cost = 0
         for supply_type, amount in self.supplies.items():
-            total_cost += amount * self.costs[supply_type]
+            total_cost += amount * self.costs[supply_type] # Adding the cost for each supply
         return total_cost
