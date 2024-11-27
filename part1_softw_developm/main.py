@@ -25,20 +25,20 @@ def main():
     num_quarters = get_positive_integer("Please enter the number of quarters to simulate: ")
     
     try:
-        hatchery = Hatchery(num_quarters=num_quarters)
+        hatchery = Hatchery(num_quarters=num_quarters) # Initializing the hatchery with specified no. of quarters
     except Exception as e:
         print(f"Error initializing the hatchery: {e}")
         return
 
-    for _ in range(hatchery.quarters):
+    for _ in range(hatchery.quarters): # Looping through quarter one after the other
         try:
             if not hatchery.run_quarter():
                 print("The hatchery has gone bankrupt. Simulation terminated.")
-                break
+                break # Incase the hatchery goes bankrupt, stop simulation
         except Exception as e:
             print(f"An error occurred during the quarter simulation: {e}")
         finally:
             hatchery.quarters += 1
 
 if __name__ == "__main__":
-    main()
+    main() # Running main function to begin the simulation

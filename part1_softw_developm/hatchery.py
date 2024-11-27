@@ -1,6 +1,6 @@
 from warehouse import Warehouse # Importing the different classes from their respective python files
 from technician import Technician
-from vendor import Vendor
+from vendor import Vendor # Like importing the Vendor class from vendor.py
 from fish_species import FishSpecies
 
 class Hatchery:
@@ -101,6 +101,7 @@ class Hatchery:
         self.adjust_technicians()
         self.adjust_fish_sales()
 
+        # Deducting fixed costs and technician payments
         self.cash -= self.fixed_costs  # Deducts fixed costs and technician payments
         for technician in self.technicians:
             self.cash -= technician.get_payment()  
@@ -110,10 +111,12 @@ class Hatchery:
         
         self.warehouse.apply_depreciation() # Apply depreciation to supplies in the warehouse
         
+        # Displaying status of the hatchery
         self.display_status()
 
         self.restock_supplies()
 
+        # Checking if hatchery has gone bankrupt or not
         if self.cash < 0:
             print(f"Hatchery went bankrupt at the end of quarter {self.quarters}")
             return False
@@ -205,12 +208,12 @@ class Hatchery:
         """
         while True:
             try:
-                value = int(input(prompt))
+                value = int(input(prompt)) # Attempting to get an integer
                 if valid_range and value not in valid_range:
                     print(f"Please enter a value between {valid_range[0]} and {valid_range[1]}.")
                 else:
                     return value
-            except ValueError:
+            except ValueError: # If input is not an integer, asking the user again
                 print("Invalid input. Please enter a valid integer.")
             except KeyboardInterrupt:
                 print("\nInput interrupted, please try again.")
